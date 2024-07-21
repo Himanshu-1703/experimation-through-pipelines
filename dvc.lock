@@ -14,11 +14,11 @@ stages:
     params:
       params.yaml:
         make_dataset.random_state: 42
-        make_dataset.test_size: 0.2
+        make_dataset.test_size: 0.1
     outs:
     - path: .\data\raw\
       hash: md5
-      md5: 7fd29282963b3ec5c0f78833b3c17ff9.dir
+      md5: 53da25f765ad4d882be9d6062122d451.dir
       size: 2374
       nfiles: 2
   build_features:
@@ -26,33 +26,33 @@ stages:
     deps:
     - path: .\data\raw\
       hash: md5
-      md5: 7fd29282963b3ec5c0f78833b3c17ff9.dir
+      md5: 53da25f765ad4d882be9d6062122d451.dir
       size: 2374
       nfiles: 2
     - path: .\src\features\build_features.py
       hash: md5
-      md5: 6033622dffdf16fe3284b70b1d29738c
-      size: 2600
+      md5: 4f8907c74c005d364b1b165e606c4142
+      size: 2549
     params:
       params.yaml:
         build_features.n_components: 0.95
     outs:
     - path: .\data\processed\
       hash: md5
-      md5: 03e7f263306fe5f69586267c234d054f.dir
-      size: 10149
+      md5: e7e49b3b0499319ff12a783da56af4ba.dir
+      size: 10171
       nfiles: 2
     - path: .\models\preprocessor.joblib
       hash: md5
-      md5: 674023ec0657997a62baa94a883087cc
+      md5: 065bddec23c8e75290df768c3c455371
       size: 2550
   train_model:
     cmd: python .\src\models\train_model.py
     deps:
     - path: .\data\processed\train_processed.csv
       hash: md5
-      md5: 6e98dbe2c82e7f245273f7ac252ec863
-      size: 8096
+      md5: fe7830d3830a5fd4c25f6ff082d6d8b1
+      size: 9129
     - path: .\src\models\train_model.py
       hash: md5
       md5: d0174e16d9dd898b45c04e72320e5c27
@@ -60,26 +60,26 @@ stages:
     params:
       params.yaml:
         train_model:
-          n_estimators: 100
+          n_estimators: 200
           verbose: 2
           learning_rate: 0.1
           max_depth: 4
     outs:
     - path: .\models\model.joblib
       hash: md5
-      md5: c087c222f72ed3f5484a8f662b08c86e
-      size: 260088
+      md5: fdc91e4850a7fb6595488b84bf0e1977
+      size: 451784
   predict_model:
     cmd: python .\src\models\predict_model.py
     deps:
     - path: .\data\processed\test_processed.csv
       hash: md5
-      md5: 67c9bfafec346697518d62e223edb33b
-      size: 2053
+      md5: a5f969102be6d1ed638a7990ea75aa34
+      size: 1042
     - path: .\models\model.joblib
       hash: md5
-      md5: c087c222f72ed3f5484a8f662b08c86e
-      size: 260088
+      md5: fdc91e4850a7fb6595488b84bf0e1977
+      size: 451784
     - path: .\src\models\predict_model.py
       hash: md5
       md5: 7e86fc415e7e5978ad0848543a7ee077
@@ -87,9 +87,9 @@ stages:
     outs:
     - path: .\reports\figures\confusion_matrix.png
       hash: md5
-      md5: eb229cd79aab0cc6a492dc6ad05a472e
-      size: 12077
+      md5: 677ae8232ebe739d0eba61fc09bce7ac
+      size: 13087
     - path: .\reports\metrics.json
       hash: md5
-      md5: 728c1451d50a14a507c6fd96b12b228c
-      size: 108
+      md5: 281d7294a0d0a8073e9fbd0f1ed83e05
+      size: 106

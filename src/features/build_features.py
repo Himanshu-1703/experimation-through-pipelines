@@ -70,12 +70,12 @@ def main():
     X_test_trans = preprocessor.transform(X_test)
     
     # combine the data
-    train_data_processed = X_train_trans.join(y_train)
-    test_data_processed = X_test_trans.join(y_test)
+    X_train_trans[TARGET] = y_train
+    X_test_trans[TARGET] = y_test
     
     # save the data
-    save_data(train_data_processed,
-              test_data_processed,
+    save_data(X_train_trans,
+              X_test_trans,
               save_path)
     
     # save preprocessor
