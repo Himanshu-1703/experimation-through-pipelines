@@ -30,7 +30,7 @@ stages:
     - train_model
     outs:
     - .\models\model.joblib
-    
+
   predict_model:
     cmd: python .\src\models\predict_model.py
     deps:
@@ -41,3 +41,17 @@ stages:
     - .\reports\metrics.json
     plots:
     - .\reports\figures\confusion_matrix.png
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step
+- dvclive/plots/sklearn/confusion_matrix.json:
+    template: confusion
+    x: actual
+    y: predicted
+    title: Confusion Matrix
+    x_label: True Label
+    y_label: Predicted Label
+params:
+- dvclive/params.yaml

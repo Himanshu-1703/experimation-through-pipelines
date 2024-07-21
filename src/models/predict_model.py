@@ -9,7 +9,8 @@ from sklearn.metrics import (
     f1_score,
     ConfusionMatrixDisplay
 )
-
+from yaml import safe_load
+from dvclive import Live
 
 TARGET = "Placed"
 
@@ -23,6 +24,11 @@ def make_X_y(df: pd.DataFrame, target_column: str = TARGET):
     y = df[target_column]
     return X, y
 
+def read_params(file_path: Path) -> dict:
+    with open(file_path,'r') as file:
+        params = safe_load(file)
+    return params
+
 
 def main():
     root_path = Path(__file__).parent.parent.parent
@@ -30,6 +36,8 @@ def main():
     test_data_path = root_path / "data" / "processed" / "test_processed.csv"
     # save model path
     model_load_path = root_path / "models" / "model.joblib"
+    # params_path
+    params_path = root_path / "params.yaml"
     # plot save location
     save_plot_path = root_path / "reports" / "figures"
     save_plot_path.mkdir(exist_ok=True)
@@ -77,7 +85,24 @@ def main():
     # save the figure
     cm.savefig(save_plot_path / "confusion_matrix.png")
     
-    
+    # log metrics and params in experiment
+    with Live(save_dvc_exp=True) as live:
+        
+        # log metrics
+        for key,val in metrics_dict.items():
+            live.log_metric(key,val)
+        
+        # read parameters
+        params = read_params(params_path)
+            
+        # log parameters
+        live.log_params(params)
+        
+        # log confusion matrix
+        live.log_sklearn_plot(kind='confusion_matrix',
+                              labels=y_test.values,
+                              predictions=y_pred)
+        
     
 if __name__ == "__main__":
     main()
