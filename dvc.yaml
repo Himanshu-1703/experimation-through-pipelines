@@ -9,7 +9,7 @@ stages:
     - make_dataset.test_size
     outs:
     - .\data\raw\
-    
+
   build_features:
     cmd: python .\src\features\build_features.py
     deps:
@@ -20,3 +20,13 @@ stages:
     outs:
     - .\data\processed\
     - .\models\preprocessor.joblib
+    
+  train_model:
+    cmd: python .\src\models\train_model.py
+    deps:
+    - .\data\processed\train_processed.csv
+    - .\src\models\train_model.py
+    params:
+    - train_model
+    outs:
+    - .\models\model.joblib
