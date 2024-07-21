@@ -9,3 +9,14 @@ stages:
     - make_dataset.test_size
     outs:
     - .\data\raw\
+    
+  build_features:
+    cmd: python .\src\features\build_features.py
+    deps:
+    - .\data\raw\
+    - .\src\features\build_features.py
+    params:
+    - build_features.n_components
+    outs:
+    - .\data\processed\
+    - .\models\preprocessor.joblib
