@@ -1,0 +1,23 @@
+schema: '2.0'
+stages:
+  make_dataset:
+    cmd: python .\src\data\make_dataset.py
+    deps:
+    - path: .\data\ingested\student_performance.csv
+      hash: md5
+      md5: 64364f4a63e1a6e482ac906dcae90c40
+      size: 2214
+    - path: .\src\data\make_dataset.py
+      hash: md5
+      md5: a2aefbef2b8f3bfdcec53bc10caa5288
+      size: 1808
+    params:
+      params.yaml:
+        make_dataset.random_state: 42
+        make_dataset.test_size: 0.2
+    outs:
+    - path: .\data\raw\
+      hash: md5
+      md5: 7fd29282963b3ec5c0f78833b3c17ff9.dir
+      size: 2374
+      nfiles: 2
