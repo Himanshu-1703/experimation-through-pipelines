@@ -20,7 +20,7 @@ stages:
     outs:
     - .\data\processed\
     - .\models\preprocessor.joblib
-    
+
   train_model:
     cmd: python .\src\models\train_model.py
     deps:
@@ -30,3 +30,14 @@ stages:
     - train_model
     outs:
     - .\models\model.joblib
+    
+  predict_model:
+    cmd: python .\src\models\predict_model.py
+    deps:
+    - .\models\model.joblib
+    - .\src\models\predict_model.py
+    - .\data\processed\test_processed.csv
+    metrics:
+    - .\reports\metrics.json
+    plots:
+    - .\reports\figures\confusion_matrix.png

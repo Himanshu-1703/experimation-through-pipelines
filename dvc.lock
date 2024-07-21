@@ -69,3 +69,27 @@ stages:
       hash: md5
       md5: c087c222f72ed3f5484a8f662b08c86e
       size: 260088
+  predict_model:
+    cmd: python .\src\models\predict_model.py
+    deps:
+    - path: .\data\processed\test_processed.csv
+      hash: md5
+      md5: 67c9bfafec346697518d62e223edb33b
+      size: 2053
+    - path: .\models\model.joblib
+      hash: md5
+      md5: c087c222f72ed3f5484a8f662b08c86e
+      size: 260088
+    - path: .\src\models\predict_model.py
+      hash: md5
+      md5: 7e86fc415e7e5978ad0848543a7ee077
+      size: 2095
+    outs:
+    - path: .\reports\figures\confusion_matrix.png
+      hash: md5
+      md5: eb229cd79aab0cc6a492dc6ad05a472e
+      size: 12077
+    - path: .\reports\metrics.json
+      hash: md5
+      md5: 728c1451d50a14a507c6fd96b12b228c
+      size: 108
